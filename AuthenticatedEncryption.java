@@ -52,7 +52,7 @@ class AuthenticatedEncryption {
     public String decrypt(byte[] encrypted_payload) throws Exception {
         byte[] iv = Arrays.copyOf(encrypted_payload, IV_SIZE);
         int macLenght = hmacLength(auth_key);
-        byte[] hmac1 = Arrays.copyOfRange(encrypted_payload, IV_SIZE + macLenght, encrypted_payload.length);
+        byte[] hmac1 = Arrays.copyOfRange(encrypted_payload, encrypted_payload.length - macLenght, encrypted_payload.length);
         byte[] ciphertext = Arrays.copyOfRange(encrypted_payload, IV_SIZE, encrypted_payload.length - macLenght);
         byte[] data = concat(iv, ciphertext);
         byte[] hmac2 = generateHMAC(auth_key, data);
